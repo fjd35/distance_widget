@@ -16,7 +16,9 @@ def update_location():
     name = data["name"]
     if name not in USERS:
         abort(403)
-    coords = data["coords"]
+    latitude = data.get("latitude")
+    longitude = data.get("longitude")
+    coords = (latitude, longitude)
     with open(f"{name}.txt", "w") as f:
         f.write(json.dumps(coords))
     return json.dumps({'success':True}), 200, {'ContentType':'application/json'}

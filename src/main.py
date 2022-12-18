@@ -12,7 +12,7 @@ api = Blueprint("api", __name__)
 
 @api.route("/update_location", methods=["POST"])
 def update_location():
-    data = request.get_json()
+    data = request.get_json(force=True)
     print(data)
     name = data["name"]
     if name not in USERS:

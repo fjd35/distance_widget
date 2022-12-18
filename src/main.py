@@ -12,7 +12,6 @@ api = Blueprint("api", __name__)
 
 @api.route("/update_location", methods=["POST"])
 def update_location():
-    print(request.get_data())
     data = request.get_json()
     print(data)
     name = data["name"]

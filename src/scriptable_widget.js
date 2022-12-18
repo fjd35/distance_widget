@@ -9,14 +9,16 @@ let location = await Location.current()
 // Use the Request class to create a POST request with the location data
 let post_req = new Request('https://fergal.pythonanywhere.com/update_location')
 post_req.method = 'POST'
-post_req.body = {
-  name: "ProfuseGod",
-  latitude: location.latitude,
-  longitude: location.longitude
-}
+post_req.headers = {"Content-Type": "application/json"}
+post_req.body = JSON.stringify({
+  "name": "ProfuseGod",
+  "latitude": location.latitude,
+  "longitude": location.longitude
+})
 
 // Send the POST request
-await post_req.loadJSON()
+let resp = await post_req.loadString()
+console.log(resp)
 
 // Use the Request class to create a GET request to retrieve the text to display in the widget
 let get_req = new Request('https://fergal.pythonanywhere.com/distance')

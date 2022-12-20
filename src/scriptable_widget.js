@@ -1,5 +1,5 @@
 // Set the refresh interval for the widget
-const refreshInterval = 600
+const refreshInterval = 60
 
 const widget = await createWidget()
 
@@ -10,7 +10,13 @@ Script.complete()
 async function createWidget(items) {
   const data = await refresh()
   const list = new ListWidget()
-  list.addText(data)
+  let title = list.addText('<3')
+  title.centerAlignText()
+  title.font = Font.semiBoldSystemFont(15)
+  let distance_text = list.addText(parseFloat(data).toFixed(0)+' km')
+  distance_text.centerAlignText()
+  distance_text.minimumScaleFactor = 0.5
+  distance_text.lineLimit = 1
   list.refreshAfterDate = new Date(Date.now() + refreshInterval)
 
   return list

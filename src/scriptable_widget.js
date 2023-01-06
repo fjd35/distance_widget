@@ -1,5 +1,6 @@
 // Set the refresh interval for the widget
 const refreshInterval = 60
+const cache_file_location = files.joinPath(files.documentsDirectory(), "cached_distance")
 
 const widget = await createWidget()
 
@@ -8,7 +9,13 @@ Script.setWidget(widget)
 Script.complete()
 
 async function createWidget(items) {
-  const data = await refresh()
+  try {
+    const data = await refresh()
+    cache_data(data)
+  } catch (e) {
+    console.log(e.message)
+    data = get_cached_data()
+  }
   const list = new ListWidget()
   let title = list.addText('<3')
   title.centerAlignText()
@@ -20,6 +27,14 @@ async function createWidget(items) {
   list.refreshAfterDate = new Date(Date.now() + refreshInterval)
 
   return list
+}
+
+function cache_data(data) {
+  files.writeString(cache_file_location, data)
+}
+
+function get_cached_data(data) {
+  return files.readString(cache_file_location)
 }
 
 async function refresh() {

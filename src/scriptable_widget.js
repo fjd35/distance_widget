@@ -1,5 +1,7 @@
 // Set the refresh interval for the widget
 const refreshInterval = 60
+
+const files = FileManager.local()
 const cache_file_location = files.joinPath(files.documentsDirectory(), "cached_distance")
 
 const widget = await createWidget()
@@ -9,8 +11,9 @@ Script.setWidget(widget)
 Script.complete()
 
 async function createWidget(items) {
+  let data = ''
   try {
-    const data = await refresh()
+    data = await refresh()
     cache_data(data)
   } catch (e) {
     console.log(e.message)
@@ -19,7 +22,7 @@ async function createWidget(items) {
   const list = new ListWidget()
   let title = list.addText('<3')
   title.centerAlignText()
-  title.font = Font.semiBoldSystemFont(15)
+  title.font = Font.semiboldSystemFont(15)
   let distance_text = list.addText(parseFloat(data).toFixed(0)+' km')
   distance_text.centerAlignText()
   distance_text.minimumScaleFactor = 0.5
